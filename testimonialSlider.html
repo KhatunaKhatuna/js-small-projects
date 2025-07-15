@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testimonial Slider</title>
+    <style>
+      body {
+        margin: 0;
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        align-items: center;
+      }
+      .testimonial-container {
+        width: 90%;
+        max-width: 500px;
+        min-width: 300px;
+        height: 160px;
+        padding: 80px 20px 40px;
+        font-size: 18px;
+        background-color: rgb(140, 126, 230);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        color: white;
+        position: relative;
+        transition: opacity 0.5s ease-in-out;
+        opacity: 1;
+      }
+
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: -50px;
+        transform: translate(-50%, 0);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testimonial-container">
+      <img />
+      <p class="testimonial-text"></p>
+      <h4 class="testimonial-username">Cherise G</h4>
+    </div>
+    <script>
+      const testimonials = [
+        {
+          name: "Cherise G",
+          photoUrl:
+            "https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          text: "Apple is a game-changer. Instead of drowning in an endless chain of emails, there is clear and easy accountability meaning tasks actually get done!",
+        },
+        {
+          name: "Smit A",
+          photoUrl:
+            "https://images.unsplash.com/photo-1519699047748-de8e457a634e?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          text: "If you are a business owner, and you don't have Android in your toolkit just yet, I highly recommend that you check it out.",
+        },
+        {
+          name: "Shmedtman J",
+          photoUrl:
+            "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          text: "I love Galaxy! This is an amazing service and it has saved me and my small business so much time. I plan to use it for a long time to come.",
+        },
+        {
+          name: "Selman K",
+          photoUrl:
+            "https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          text: "I would recommend Xbox for anyone trying to get the word out about their business. It has saved me so much time!",
+        },
+      ];
+
+      const imgEl = document.querySelector("img");
+      const textEl = document.querySelector(".testimonial-text");
+      const userNameEl = document.querySelector(".testimonial-username");
+      const container = document.querySelector(".testimonial-container");
+      let index = 0;
+
+      updateTestimonial();
+
+      // Version 1
+
+      /*
+            function updateTestimonial() {
+              const { name, photoUrl, text } = testimonials[index];
+              imgEl.src = photoUrl;
+              imgEl.alt = name;
+              textEl.innerText = text;
+              userNameEl.innerText = name;
+              index++;
+
+              if (index === testimonials.length) {
+                index = 0;
+              }
+              setTimeout(() => {
+                updateTestimonial();
+              }, 1000);
+            }
+              */
+
+      // Version 2
+
+      function updateTestimonial() {
+        container.classList.add("fade-out");
+        const { name, photoUrl, text } = testimonials[index];
+
+        container.style.opacity = 0.5;
+
+        setTimeout(() => {
+          imgEl.src = photoUrl;
+          imgEl.alt = name;
+          textEl.textContent = text;
+          userNameEl.textContent = name;
+
+          container.style.opacity = 1;
+          index = (index + 1) % testimonials.length;
+        }, 300);
+      }
+
+      setInterval(updateTestimonial, 4000);
+    </script>
+  </body>
+</html>
