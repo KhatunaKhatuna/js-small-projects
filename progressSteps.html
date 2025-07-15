@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progress Steps</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
+      *,
+      *:before,
+      *:after {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      :focus,
+      :active {
+        outline: none;
+      }
+      nav,
+      footer,
+      header,
+      aside {
+        display: block;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        line-height: 1;
+        -ms-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
+      html {
+        font-size: 62.5%;
+      } /* 1rem = 10px */
+
+      input,
+      button,
+      textarea {
+        font-family: inherit;
+      }
+      input::-ms-clear {
+        display: none;
+      }
+      button {
+        cursor: pointer;
+      }
+      button::-moz-focus-inner {
+        padding: 0;
+        border: 0;
+      }
+      a,
+      a:visited {
+        text-decoration: none;
+        cursor: pointer;
+      }
+      a:hover {
+        text-decoration: none;
+      }
+      ul li {
+        list-style: none;
+      }
+      img {
+        vertical-align: top;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: inherit;
+        font-weight: 400;
+      }
+      /* ------end resset ------*/
+      :root {
+        --line-border-fill: #3498db;
+        --line-border-empty: #e0e0e0;
+      }
+      body {
+        background-color: #f6f7fb;
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .container {
+        text-align: center;
+      }
+      .progress-container {
+        display: flex;
+        justify-content: space-between;
+        position: relative;
+        margin-bottom: 3rem;
+        max-width: 100%;
+        width: 35rem;
+      }
+      .progress-container::before {
+        content: "";
+        background-color: var(--line-border-empty);
+        position: absolute;
+        top: 50%;
+        left: 0;
+        height: 0.4rem;
+        width: 100%;
+        z-index: -1;
+      }
+      .progress {
+        background-color: var(--line-border-fill);
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        height: 0.4rem;
+        width: 0%;
+        z-index: -1;
+        transition: 0.4s ease;
+      }
+
+      .circle {
+        background-color: #fff;
+        color: #999;
+        border-radius: 50%;
+        height: 3rem;
+        width: 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid var(--line-border-empty);
+        transition: 0.4s ease;
+      }
+      .circle.active {
+        border-color: var(--line-border-fill);
+      }
+      .btn {
+        background-color: var(--line-border-fill);
+        color: #fff;
+        border-radius: 0.6rem;
+        font-family: inherit;
+        padding: 0.8rem 3rem;
+        margin: 0.5rem;
+        font-size: 1.4rem;
+        cursor: pointer;
+      }
+      .btn:active {
+        transform: scale(0.98);
+      }
+      .btn:disabled {
+        background-color: var(--line-border-empty);
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="progress-container">
+        <div class="progress" id="progress"></div>
+        <div class="circle">1</div>
+        <div class="circle">2</div>
+        <div class="circle">3</div>
+        <div class="circle">4</div>
+      </div>
+      <button class="btn" id="prev">Prev</button>
+      <button class="btn" id="next">Next</button>
+    </div>
+    <script>
+      const progress = document.getElementById("progress");
+      const prev = document.getElementById("prev");
+      const next = document.getElementById("next");
+      const circles = document.querySelectorAll(".circle");
+      let currentActive = 1;
+
+      update();
+
+      next.addEventListener("click", () => {
+        if (currentActive < circles.length) {
+          currentActive++;
+          update();
+        }
+      });
+
+      prev.addEventListener("click", () => {
+        if (currentActive > 1) {
+          currentActive--;
+          update();
+        }
+      });
+
+      // Version 1
+      /*
+      function update() {
+        circles.forEach((circle, idx) => {
+          if (idx < currentActive) {
+            circle.classList.add("active");
+          } else {
+            circle.classList.remove("active");
+          }
+        });
+
+        const actives = document.querySelectorAll(".active");
+        progress.style.width =
+          ((actives.length - 1) / (circles.length - 1)) * 100 + "%";
+        if (currentActive === 1) {
+          prev.disabled = true;
+        } else if (currentActive === circles.length) {
+          next.disabled = true;
+        } else {
+          prev.disabled = false;
+          next.disabled = false;
+        }
+      }
+        */
+
+      // Version 2
+      function update() {
+        circles.forEach((circle, idx) => {
+          circle.classList.toggle("active", idx < currentActive);
+        });
+
+        const progressWidth =
+          ((currentActive - 1) / (circles.length - 1)) * 100;
+        progress.style.width = `${progressWidth}%`;
+
+        prev.disabled = currentActive === 1;
+        next.disabled = currentActive === circles.length;
+      }
+    </script>
+  </body>
+</html>
