@@ -2,5 +2,6 @@
 
 - ### Progress Steps
 - ### Progress Steps2
-- ### Testimonial Slider
 - ### Real Time Character Counter
+- ### Rotating Navigation
+- ### Testimonial Slider
