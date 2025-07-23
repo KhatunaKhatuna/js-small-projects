@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Rotating Navigation</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
+      *,
+      *:before,
+      *:after {
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      :focus,
+      :active {
+        outline: none;
+      }
+      nav,
+      footer,
+      header,
+      aside {
+        display: block;
+      }
+      html,
+      body {
+        width: 100%;
+        line-height: 1;
+        -ms-text-size-adjust: 100%;
+        -moz-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+      }
+      html {
+        font-size: 62.5%;
+      } /* 1rem = 10px */
+
+      input,
+      button,
+      textarea {
+        font-family: inherit;
+      }
+      input::-ms-clear {
+        display: none;
+      }
+      button {
+        cursor: pointer;
+      }
+      button::-moz-focus-inner {
+        padding: 0;
+        border: 0;
+      }
+      a,
+      a:visited,
+      a:hover {
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      ul li {
+        list-style: none;
+      }
+      img {
+        vertical-align: top;
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: inherit;
+        font-weight: 400;
+      }
+      /* ------end resset ------*/
+
+      body {
+        background-color: #333;
+        font-size: 1.6rem;
+        overflow-x: hidden;
+        color: #222;
+      }
+
+      .container {
+        position: relative;
+        background-color: #fafafa;
+        transform-origin: top left;
+        transition: transform 0.5s linear;
+        width: 100vw;
+        min-height: 100vh;
+        padding: 5rem;
+      }
+      .container.show-nav {
+        transform: rotate(-20deg);
+      }
+      .container.show-nav + .nav-menu {
+        transform: translateX(0);
+        transition-delay: 0.3s;
+      }
+      .container.show-nav .circle {
+        transform: rotate(-70deg);
+      }
+      .circle-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translate(-50%, -50%);
+      }
+
+      .circle {
+        background-color: #ff7979;
+        height: 20rem;
+        width: 20rem;
+        border-radius: 50%;
+        position: relative;
+        transition: transform 0.5s linear;
+      }
+      .circle button {
+        position: absolute;
+        top: 70%;
+        left: 70%;
+        transform: translate(-50%, -50%);
+        background: transparent;
+        font-size: 2.6rem;
+        color: #fff;
+      }
+
+      .circle button#close {
+        left: 30%;
+      }
+
+      .content {
+        max-width: 100rem;
+        margin: 5rem auto;
+      }
+      .content h1,
+      .content h3 {
+        font-size: 2.4rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+      }
+      .content p {
+        color: #333;
+        line-height: 1.5;
+        margin: 2rem 0;
+      }
+      .nav-menu {
+        position: fixed;
+        bottom: 4rem;
+        left: 0;
+        z-index: 100;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in;
+      }
+      .nav-list {
+        padding-left: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+      }
+      .nav-item {
+        text-transform: uppercase;
+      }
+      .nav-item i {
+        font-size: 2rem;
+        margin-right: 1rem;
+      }
+      .nav-item a {
+        transition: color 0.3s ease;
+      }
+      .nav-item a:link,
+      .nav-item a:visited {
+        color: #fff;
+        cursor: pointer;
+      }
+      .nav-item a:hover,
+      .nav-item a:active {
+        color: #ff7979;
+      }
+      .nav-item a:focus {
+        outline: 2px dashed #ff7979;
+        outline-offset: 4px;
+      }
+      /* .nav-item:nth-child(1) {
+        margin-left: 0rem;
+      }
+      .nav-item:nth-child(2) {
+        margin-left: 1.5rem;
+      }
+      .nav-item:nth-child(3) {
+        margin-left: 3rem;
+      } */
+
+      @media (max-width: 768px) {
+        .content {
+          padding: 2rem;
+        }
+        .circle {
+          width: 15rem;
+          height: 15rem;
+        }
+        .nav-list {
+          gap: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="circle-container">
+        <div class="circle">
+          <button id="close" aria-label="Close navigation">
+            <i class="fas fa-times"></i>
+          </button>
+          <button id="open" aria-label="Open navigation">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="content">
+        <h1>Amazing article</h1>
+        <p>
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae
+          nostrum vero expedita alias accusamus voluptatem aut optio quidem in
+          consectetur, ratione rem quis et sequi omnis harum. Laudantium rerum
+          possimus excepturi, laborum numquam ex veritatis aliquid eum odit
+          recusandae voluptatem facere distinctio necessitatibus doloremque
+          cupiditate libero id sed nulla vel molestias unde ipsam in
+          perspiciatis est fuga sit pariatur, nulla inventore unde at modi
+          minima dolorum! Laudantium minus consequatur vitae eveniet, quos
+          temporibus, nostrum autem esse veniam ad necessitatibus praesentium
+          repellendus! Adipisci quis reprehenderit nesciunt facere tempora
+          consequatur veniam fuga deleniti, neque corrupti eius odit eaque
+          corporis distinctio animi quia mollitia qui a rem eligendi doloremque
+          cum? Explicabo dolorem ea harum aliquam, exercitationem modi in fuga
+          sequi perspiciatis. Quis expedita earum quasi reprehenderit tempora
+          explicabo quia quidem? Nobis, labore!
+        </p>
+        <h3>My Dog</h3>
+        <img
+          src="https://images.unsplash.com/photo-1450096315186-13dc369ab43e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="Dog"
+        />
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
+          ullam tempora magni dolor voluptatibus quae molestiae porro sint
+          laborum? Voluptates reprehenderit beatae itaque provident perferendis
+          facere nemo nam odio accusamus! Nemo vitae laboriosam labore, a
+          commodi aliquam nostrum quas libero ad corporis ducimus alias deserunt
+          officiis sequi provident necessitatibus. Illo eveniet exercitationem
+          necessitatibus non ducimus, ex placeat sed dicta animi voluptatibus
+          in. Esse consectetur, numquam doloremque nemo ipsa explicabo alias
+          totam reiciendis, vel, iure quasi?
+        </p>
+      </div>
+    </div>
+    <nav class="nav-menu" role="navigation">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="#"><i class="fas fa-home"></i>Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="#"><i class="fas fa-user-alt"></i>About</a>
+        </li>
+        <li class="nav-item">
+          <a href="#"><i class="fas fa-envelope"></i>Contact</a>
+        </li>
+      </ul>
+    </nav>
+    <script>
+      const openBtn = document.getElementById("open");
+      const closeBtn = document.getElementById("close");
+      const container = document.querySelector(".container");
+      const navList = document.querySelectorAll(".nav-item");
+      let distance = 0;
+      navList.forEach((navItem) => {
+        navItem.style.marginLeft = distance + "rem";
+        distance += 1.5;
+      });
+      openBtn.addEventListener("click", () => {
+        container.classList.add("show-nav");
+      });
+
+      closeBtn.addEventListener("click", () => {
+        container.classList.remove("show-nav");
+      });
+    </script>
+  </body>
+</html>
